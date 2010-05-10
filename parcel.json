@@ -1,0 +1,25 @@
+{
+"name": "cwac-parcel",
+"description": "CWAC ParcelHelper, to assist in the creation of Android parcels",
+"version": "0.1.0",
+"maintainers": [
+		{
+			"name": "Mark Murphy",
+			"web": "http://commonsware.com"
+		}
+	],
+"licenses": [
+		{
+			"type": "Apache License, 2.0",
+			"url": "http://www.apache.org/licenses/LICENSE-2.0"
+		}
+	],
+"homepage": "http://github.com/commonsguy/cwac-parcel",
+"repositories": [
+       {
+            "type": "git", 
+            "url": "https://commonsguy@github.com/commonsguy/cwac-parcel.git"
+       }
+]
+
+}
