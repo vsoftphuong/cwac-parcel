@@ -62,8 +62,34 @@
          build steps are used.
     -->
     <setup />
-    
-    <property environment="env"/>
+
+    <target name="dist-dir">
+        <mkdir dir="dist"/>
+    </target>
+
+    <target name="dist-full" depends="dist-dir">
+        <delete file="dist/CWAC-Parcel-full.zip" />
+        <zip destfile="dist/CWAC-Parcel-full.zip">
+            <zipfileset
+                dir="."
+                prefix="CWAC-Parcel"
+                includes="**"
+                excludes="bin/**, dist/**, gen/**, .git/**, .gitignore, demo/bin/**, demo/gen/**"
+            />
+        </zip>
+    </target>
+
+    <target name="dist-lite" depends="dist-dir">
+        <delete file="dist/CWAC-Parcel-lite.zip" />
+        <zip destfile="dist/CWAC-Parcel-lite.zip">
+            <zipfileset
+                dir="."
+                prefix="CWAC-Parcel"
+                includes="**"
+                excludes="bin/**, dist/**, gen/**, .git/**, .gitignore, demo/**"
+            />
+        </zip>
+    </target>
 
     <target name="jar" depends="compile">
         <jar
@@ -71,34 +97,26 @@
             basedir="bin/classes"
         />
     </target>
-    
-    <target name="clean">
-        <delete includeemptydirs="true">
-            <fileset dir="bin" includes="**/*"/>
-        </delete>
-        <delete includeemptydirs="true">
-            <fileset dir="gen" includes="**/*"/>
-        </delete>
-    </target>
-    
-    <target name="parcel" depends="jar">
-        <exec executable="parcel">
-            <arg value="package" />
-            <arg value="parcel.json" />
-            <arg value="--dir" />
-            <arg value="parcel" />
-            <arg value="-j" />
-            <arg value="bin/CWAC-Parcel.jar" />
-            <arg value="-d" />
-            <arg value="README.markdown" />
-            <arg value="LICENSE" />
-        </exec>
-    </target>
 
-    <target name="lint">
-        <exec executable="parcel">
-            <arg value="lint" />
-            <arg value="parcel.json" />
-        </exec>
+    <target name="dist-jar" depends="dist-dir, jar">
+        <delete file="dist/CWAC-Parcel-jar.zip" />
+        <copy file="bin/CWAC-Parcel.jar" todir="libs"/>
+        <mkdir dir="tmp" />
+        <mkdir dir="tmp/src" />
+        <zip destfile="dist/CWAC-Parcel-jar.zip">
+            <zipfileset
+                dir="."
+                prefix="CWAC-Parcel"
+                includes="**"
+                excludes="tmp/**, bin/**, dist/**, gen/**, .git/**, src/**, .gitignore, demo/**"
+            />
+            <zipfileset
+                dir="tmp"
+                prefix="CWAC-Parcel"
+                includes="src/"
+            />
+        </zip>
+        <delete dir="tmp"/>
+        <delete file="libs/CWAC-Parcel.jar" />
     </target>
 </project>
